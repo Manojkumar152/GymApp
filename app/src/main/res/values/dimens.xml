@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">26dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="item_margin">@dimen/_10sdp</dimen>
+    <dimen name="horizontal_margin">@dimen/_15sdp</dimen>
+    <dimen name="minus_horizontal_margin">@dimen/_minus15sdp</dimen>
+    <dimen name="vertical_margin">@dimen/_10sdp</dimen>
+    <dimen name="minus_vertical_margin">@dimen/_minus10sdp</dimen>
+    <dimen name="TextXSmall">@dimen/_8sdp</dimen>
+    <dimen name="TextXXSmall">@dimen/_10sdp</dimen>
+    <dimen name="TextSmall">@dimen/_12sdp</dimen>
+    <dimen name="TextMedium">@dimen/_14sdp</dimen>
+    <dimen name="TextXMedium">@dimen/_15sdp</dimen>
+    <dimen name="TextLarge">@dimen/_17sdp</dimen>
+    <dimen name="TextXLarge">@dimen/_20sdp</dimen>
+    <dimen name="mts">@dimen/_14sdp</dimen>
+    <dimen name="ts">@dimen/_12sdp</dimen>
+    <dimen name="staff">@dimen/_50sdp</dimen>
+    <dimen name="membership">@dimen/_40sdp</dimen>
+    <dimen name="tabText" tools:override="true">48sp</dimen>
+</resources>

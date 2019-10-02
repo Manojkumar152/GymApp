@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/blur"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="5dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/header_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/my_gym"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/TextLarge" />
+
+        <Button
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_menu"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:onClick="closeBar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <LinearLayout
+            android:id="@+id/navigation_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/horizontal_margin"
+            android:paddingTop="@dimen/horizontal_margin">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_user"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:src="@drawable/ic_logo_round" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/TextMedium"
+                    android:textColor="@android:color/white"
+                    android:text="Username"/>
+
+                <TextView
+                    android:id="@+id/user_addr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/TextMedium"
+                    android:textColor="@android:color/white"
+                    android:text="User Address"/>
+            </LinearLayout>
+        </LinearLayout>
+
+      <!--  <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgdashboard"
+            android:src="@drawable/ic_dashboard"
+            android:layout_gravity="right" />
+-->
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/lv_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_dashboard"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_dashboard"
+                        android:text="@string/dashboard"/>
+
+                    <!--<TextView
+                        android:id="@+id/item_staffmember"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_staff_member"
+                        android:text="@string/staff_member"
+                        android:visibility="gone"
+                        android:tag="staff_member" />
+
+                    <TextView
+                        android:id="@+id/item_membership"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_membership_type"
+                        android:tag="membership"
+                        android:text="@string/membership_type"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/item_group"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_group"
+                        android:text="@string/group"
+                        android:visibility="gone"
+                        android:tag="group"/>
+
+                    <TextView
+                        android:id="@+id/item_member"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_member"
+                        android:text="@string/member"
+                        android:visibility="gone"
+                        android:tag="member"/>
+
+                    <TextView
+                        android:id="@+id/item_activity"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_activity"
+                        android:text="@string/activity"
+                        android:visibility="gone"
+                        android:tag="activity"/>
+-->
+                    <TextView
+                        android:id="@+id/item_class_schedule"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_class_schedule"
+                        android:text="@string/class_schedule"
+                        android:visibility="gone"
+                        android:tag="class-schedule"/>
+
+                   <!-- <net.cachapa.expandablelayout.ExpandableLayout
+                        android:id="@+id/expandable_layout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:el_duration="1000"
+                        app:el_expanded="false"
+                        app:el_parallax="0.5">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/vertical_margin"
+                            android:layout_marginLeft="@dimen/horizontal_margin"
+                            android:layout_marginStart="@dimen/horizontal_margin"
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/vertical_margin">
+
+                            <TextView
+                                android:id="@+id/classList"
+                                style="@style/nav_link"
+                                android:text="@string/class_list" />
+
+                            <TextView
+                                android:id="@+id/classSchedule"
+                                style="@style/nav_link"
+                                android:text="@string/class_schedule" />
+                        </LinearLayout>
+                    </net.cachapa.expandablelayout.ExpandableLayout>
+
+                    <TextView
+                        android:id="@+id/item_assign_workouts"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_assign_workout"
+                        android:text="@string/assign_workouts"
+                        android:visibility="gone"
+                        android:tag="assign-workout"/>-->
+
+                    <TextView
+                        android:id="@+id/item_workouts"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_workout"
+                        android:text="@string/workouts"
+                        android:visibility="gone"
+                        android:tag="workouts"/>
+
+                    <TextView
+                        android:id="@+id/item_viewProfile"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_accountant"
+                        android:text="@string/view_profile"
+                        android:visibility="visible"
+                        android:tag="profile"/>
+
+                    <TextView
+                        android:id="@+id/item_feePayment"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_fee_payment"
+                        android:text="@string/fee_payment"
+                        android:visibility="gone"
+                        android:tag="membership_payment"/>
+
+                   <!-- <TextView
+                        android:id="@+id/item_message"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_message"
+                        android:drawableRight="@drawable/ic_expand_more"
+                        android:text="@string/message"
+                        android:visibility="gone"
+                        android:tag="message"/>
+
+                    <net.cachapa.expandablelayout.ExpandableLayout
+                        android:id="@+id/expandable_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:el_duration="1000"
+                        app:el_expanded="false"
+                        app:el_parallax="0.5">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/vertical_margin"
+                            android:layout_marginLeft="@dimen/horizontal_margin"
+                            android:layout_marginStart="@dimen/horizontal_margin"
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/vertical_margin">
+
+                            <TextView
+                                android:id="@+id/msgCompose"
+                                style="@style/nav_link"
+                                android:text="@string/compose" />
+
+                            <TextView
+                                android:id="@+id/msgInbox"
+                                style="@style/nav_link"
+                                android:text="@string/inbox" />
+
+                            <TextView
+                                android:id="@+id/msgSent"
+                                style="@style/nav_link"
+                                android:text="@string/sent" />
+                        </LinearLayout>
+                    </net.cachapa.expandablelayout.ExpandableLayout>-->
+
+                    <TextView
+                        android:id="@+id/item_notice"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_notice"
+                        android:text="@string/notice"
+                        android:visibility="gone"
+                        android:tag="notice"/>
+
+                    <TextView
+                        android:id="@+id/item_event"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_nutrition_schedule"
+                        android:text="@string/event"
+                        android:visibility="visible"
+                        android:tag="event"/>
+
+                    <TextView
+                        android:id="@+id/item_coupon"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_reservation"
+                        android:text="@string/coupons"
+                        android:visibility="visible"
+                        android:tag="coupon"/>
+
+                 <!--   <TextView
+                        android:id="@+id/item_account"
+                        style="@style/NavigationTextView"
+                        android:drawableLeft="@drawable/ic_account"
+                        android:text="@string/account"
+                        android:visibility="gone"
+                        android:tag="account"/>
+
+                    <TextView
+                        android:id="@+id/item_subscription"
+                        style="@style/NavigationTextView"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:drawableLeft="@drawable/ic_history"
+                        android:text="@string/subscription_history"
+                        android:visibility="gone"
+                        android:tag="subscription_history"/>
+-->
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+    <!-- <Button
+         android:layout_gravity="end"
+         android:text="@string/logout"
+         android:onClick="logout"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" />-->
+</LinearLayout>
+

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_home">
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/ColorWhite">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_2sdp"
+                    android:weightSum="3">
+
+                    <RelativeLayout
+                        android:id="@+id/divWorkout"
+                        style="@style/dashboard_div"
+                        android:background="@android:color/white">
+
+                        <ImageView
+                            android:id="@+id/img1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="@dimen/_1sdp"
+                            android:src="@drawable/ic_dash_member" />
+
+                        <TextView
+                            android:id="@+id/lbl1"
+                            style="@style/dashboard_text"
+                            android:layout_below="@+id/img1"
+                            android:textColor="#5FCE9B"
+                            android:text="@string/workouts" />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorGray"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/divClass"
+                        style="@style/dashboard_div"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:background="@android:color/white">
+
+                        <ImageView
+                            android:id="@+id/img2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="@dimen/_1sdp"
+                            android:src="@drawable/ic_dash_staff_member" />
+
+                        <TextView
+                            android:id="@+id/lbMember"
+                            style="@style/dashboard_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/img2"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="#66B5D6"
+                            android:text="@string/class_schedule" />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorGray"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/divNutrition"
+                        style="@style/dashboard_div"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:background="@android:color/white">
+
+                        <ImageView
+                            android:id="@+id/img3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="@dimen/_1sdp"
+                            android:src="@drawable/nutrition_plan" />
+
+                        <TextView
+                            android:id="@+id/lbl3"
+                            style="@style/dashboard_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/img3"
+                            android:textColor="#E87352"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/nutrition_plan" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary">
+                    <TextView
+                        android:id="@+id/workout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_workout"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_12sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:layout_alignParentLeft="true"/>
+                    <TextView
+                        android:id="@+id/current_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_12sdp"
+                        android:hint="Today's Date"
+                        android:textColorHint="@color/ColorWhite"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:layout_alignParentRight="true"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/workout_list"
+                        android:layout_below="@+id/workout"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/previous_workout"
+                    android:textColor="@color/ColorGray"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/ColorGray"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/workout_image"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/dashboard_static_img"/>
+                    <LinearLayout
+                        android:layout_toRightOf="@+id/workout_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="@dimen/_10sdp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/previous_workout"
+                        android:textColor="@color/ColorGray"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/previous_workout"
+                        android:textColor="@color/ColorGray"
+                        android:textSize="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"/>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/user_image"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:src="@drawable/ic_dash_member"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/previous_workout"
+                                android:textColor="@color/ColorGray"
+                                android:layout_toRightOf="@+id/user_image"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_centerInParent="true"
+                                android:maxLines="2"
+                                android:textSize="@dimen/_12sdp"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_forward"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/_20sdp"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/ColorGray"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/latest_news"
+                    android:textColor="@color/ColorGray"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@color/colorPrimary"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/static_text"
+                    android:textColor="@color/ColorGray"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:textSize="@dimen/_12sdp"/>
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>
