@@ -6,12 +6,13 @@ import java.util.List;
 
 public class RegistrationDetails {
 
+
     /**
      * status : 1
      * error_code : 200
      * error : Success / All ok
      * username : ["ownernew","superadminstaff","owner","Pk","Sk","staff","member","accountant","abc123","def123","Sunny","Libra","Jk","Dalip","Raj","Saroj","Satnam","alpha","arvind","aarav","sl"]
-     * result : {"member_id":"M830119","class":[{"id":"1","class_name":"Aerobic"},{"id":"2","class_name":"abc"},{"id":"3","class_name":"Yoga"},{"id":"4","class_name":"Gym"},{"id":"5","class_name":"Arbice"},{"id":"6","class_name":"Dance"},{"id":"7","class_name":"Yoga"},{"id":"8","class_name":"cyclejj"},{"id":"9","class_name":"Yoga"},{"id":"10","class_name":"Dance"},{"id":"11","class_name":"Cjjs"},{"id":"12","class_name":"aerobics"}],"group":[{"id":"1","name":"Aaa"},{"id":"2","name":"Gym "},{"id":"3","name":"Abcd"},{"id":"4","name":"Weight loss"},{"id":"5","name":"grouptest"},{"id":"6","name":"Weight loss"},{"id":"7","name":"losse"}],"interest_area":[{"id":"1","gym_id":"3","interest":"Gym"},{"id":"2","gym_id":"3","interest":"Gym"},{"id":"3","gym_id":"12","interest":"Gym"},{"id":"4","gym_id":"27","interest":"Gym"}],"membership":[{"id":"1","membership_label":"membership demo"},{"id":"2","membership_label":"Gold"},{"id":"3","membership_label":"Diamond"},{"id":"4","membership_label":"Silver"},{"id":"5","membership_label":"Silver"},{"id":"6","membership_label":"Gold"},{"id":"7","membership_label":"Diamond"},{"id":"8","membership_label":"Month"},{"id":"9","membership_label":"momthsss"},{"id":"10","membership_label":"membership"},{"id":"11","membership_label":"Silver"},{"id":"12","membership_label":"Gold"},{"id":"13","membership_label":"platinum"},{"id":"14","membership_label":"platinum"}]}
+     * result : {"member_id":"M830219","class":[{"id":"1","class_name":"Aerobic"},{"id":"2","class_name":"abc"},{"id":"3","class_name":"Yoga"},{"id":"4","class_name":"Gym"},{"id":"5","class_name":"Arbice"},{"id":"6","class_name":"Dance"},{"id":"7","class_name":"Yoga"},{"id":"8","class_name":"cyclejj"},{"id":"9","class_name":"Yoga"},{"id":"10","class_name":"Dance"},{"id":"11","class_name":"Cjjs"},{"id":"12","class_name":"aerobics"}],"group":[{"id":"1","name":"Aaa"},{"id":"2","name":"Gym "},{"id":"3","name":"Abcd"},{"id":"4","name":"Weight loss"},{"id":"5","name":"grouptest"},{"id":"6","name":"Weight loss"},{"id":"7","name":"losse"}],"interest_area":[{"id":"1","gym_id":"3","interest":"Gym"},{"id":"2","gym_id":"3","interest":"Gym"},{"id":"3","gym_id":"12","interest":"Gym"},{"id":"4","gym_id":"27","interest":"Gym"}],"membership":[{"id":"1","membership_label":"membership demo"},{"id":"2","membership_label":"Gold"},{"id":"3","membership_label":"Diamond"},{"id":"4","membership_label":"Silver"},{"id":"5","membership_label":"Silver"},{"id":"6","membership_label":"Gold"},{"id":"7","membership_label":"Diamond"},{"id":"8","membership_label":"Month"},{"id":"9","membership_label":"momthsss"},{"id":"10","membership_label":"membership"},{"id":"11","membership_label":"Silver"},{"id":"12","membership_label":"Gold"},{"id":"13","membership_label":"platinum"},{"id":"14","membership_label":"platinum"}]}
      */
 
     private String status;
@@ -62,7 +63,7 @@ public class RegistrationDetails {
 
     public static class ResultBean {
         /**
-         * member_id : M830119
+         * member_id : M830219
          * class : [{"id":"1","class_name":"Aerobic"},{"id":"2","class_name":"abc"},{"id":"3","class_name":"Yoga"},{"id":"4","class_name":"Gym"},{"id":"5","class_name":"Arbice"},{"id":"6","class_name":"Dance"},{"id":"7","class_name":"Yoga"},{"id":"8","class_name":"cyclejj"},{"id":"9","class_name":"Yoga"},{"id":"10","class_name":"Dance"},{"id":"11","class_name":"Cjjs"},{"id":"12","class_name":"aerobics"}]
          * group : [{"id":"1","name":"Aaa"},{"id":"2","name":"Gym "},{"id":"3","name":"Abcd"},{"id":"4","name":"Weight loss"},{"id":"5","name":"grouptest"},{"id":"6","name":"Weight loss"},{"id":"7","name":"losse"}]
          * interest_area : [{"id":"1","gym_id":"3","interest":"Gym"},{"id":"2","gym_id":"3","interest":"Gym"},{"id":"3","gym_id":"12","interest":"Gym"},{"id":"4","gym_id":"27","interest":"Gym"}]

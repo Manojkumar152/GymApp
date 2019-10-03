@@ -17,4 +17,8 @@ public interface ApiInterface {
     @GET(Urls.FETCH_REGISTRATION_DETAILS)
     Call<RegistrationDetails> getRegistrationDetails();
 
+   /* @FormUrlEncoded
+    @POST(Urls.URL_LOGIN)
+    Call<RegistrationDetails> RegisterDetail();
+*/
 }
