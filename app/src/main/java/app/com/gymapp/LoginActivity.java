@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,12 +29,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText txtEmail, txtPassword;
     private SessionManager session;
     private Button submit;
     private ProgressDialog dialog;
     private String TAG = "LoginActivity";
+    private LinearLayout mlinear_signout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,12 @@ public class LoginActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
         submit= findViewById(R.id.submit);
+        mlinear_signout = findViewById(R.id.linear_signout);
 
         session = new SessionManager(getApplicationContext());
         dialog = new ProgressDialog(this);
         dialog.setMessage(getString(R.string.wait));
+        mlinear_signout.setOnClickListener(this);
     }
 
     public void signup_with_email(View view) {
@@ -98,6 +102,15 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.linear_signout:
+                Intent intent = new Intent(getApplicationContext(),RegisterScreen.class);
+                startActivity(intent);
+        }
     }
 }
 

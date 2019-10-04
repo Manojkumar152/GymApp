@@ -1,10 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="app.com.gymapp">
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,6 +32,11 @@
         android:name=".LoginActivity"
         android:theme="@style/AppThemeNoActionbar"
         android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".RegisterScreen"
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustPan"/>
     <activity
         android:name=".HomeActivity"
         android:label="Gym Master"

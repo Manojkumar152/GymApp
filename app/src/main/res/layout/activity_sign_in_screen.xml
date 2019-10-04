@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,6 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -126,21 +131,87 @@
                         android:maxLength="20"
                         android:singleLine="true" />
 
+
+                    <TextView
+                        android:id="@+id/tv_forget_pass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="16dp"
+                        android:textSize="@dimen/_12sdp"
+                        android:padding="8dp"
+                        android:background="@null"
+                        android:singleLine="true"
+                        android:visibility="gone"
+                        android:inputType="textEmailAddress"
+                        android:textAllCaps="false"
+                        android:hint="Forget Password?"
+                        android:textColorHint="@color/colorPrimary"/>
                     <Button
                         android:id="@+id/submit"
                         style="@style/button_submit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_1sdp"
-                        android:layout_marginTop="@dimen/_22sdp"
-                        android:layout_marginBottom="@dimen/_28sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:layout_marginBottom="@dimen/_18sdp"
                         android:layout_weight="1"
                         android:onClick="login"
                         android:background="@drawable/rectangular_blue_drawable"
                         android:text="Submit" />
 
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/btn_login"
+                        android:orientation="vertical"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tv_already_have_account"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Create a new account?"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"/>
+                            <LinearLayout
+                                android:id="@+id/linear_signout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Sign up"
+                                    android:textAllCaps="true"
+                                    android:textSize="16sp"/>
+
+                                <View
+                                    android:layout_width="60dp"
+                                    android:layout_height="1dp"
+                                    android:background="@color/colorPrimary"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+        </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>
