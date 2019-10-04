@@ -1,7 +1,6 @@
 package app.com.gymapp;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -13,19 +12,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -33,37 +34,32 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
-import app.com.gymapp.Fragments.Fragment_Edit_Profile;
+import app.com.gymapp.Adapter.WorkoutAdapter;
+import app.com.gymapp.Fragments.FragmentEditProfile;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener, ExpandableLayout.OnExpansionUpdateListener {
     private ImageView img_user;
     private ImageButton btnBack, btnMenu, tMsg, tWorkout;
-    private PopupWindow mPopupWindow;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private ActionBarDrawerToggle toggle;
-    private MaterialCalendarView cv;
-    private ImageView imgdashboard;
-    private RelativeLayout container;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private RecyclerView workoutList;
     private SwipeRefreshLayout refreshLayout;
     private TextView textTitle, header_text;
     private TextView tv_name, tv_addr,currentDate;
     private Toolbar toolbar;
     private ArrayList<String> workDays;
-    private ExpandableLayout expandableLayout, expandableLayout2, exp_weight, exp_waist, exp_height,
-            exp_thigh, exp_fat, exp_chest, exp_arms;
     private DrawerLayout drawer;
     private String Title = "Dashboard";
     private String TAG = "HomeActivity";
     FragmentManager fragmentManager;
-    SharedPreferences mPrefs;
-    SplashActivity activity;
-    SharedPreferences pref;
-    ProgressDialog progressDialog;
+    SessionManager session;
+    RelativeLayout container;
+    //SharedPreferences mPrefs;
+    //SharedPreferences pref;
     SharedPreferences.Editor editor;
     TextView item_notice, item_class_schedule,  item_workouts, item_viewProfile, item_feePayment, item_dashboard, item_event, item_coupons;
-    View linearLayout;
 
 
     @Override
@@ -74,15 +70,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         addData();
 
-
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         textTitle = findViewById(R.id.toolbar_text);
         textTitle.setText(Title);
-        mPrefs = getSharedPreferences("Session", Context.MODE_PRIVATE);
+        session = new SessionManager(getApplicationContext());
+       /* mPrefs = getSharedPreferences("Session", Context.MODE_PRIVATE);
         pref = getSharedPreferences("Session", Context.MODE_PRIVATE);
-        editor = pref.edit();
-
+        editor = pref.edit();*/
 
         setView();
         setViewContainer();
@@ -93,8 +88,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         drawer = findViewById(R.id.drawer_layout);
 //        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         setupFragmentManager();
-        /*//setProfie();
-        settingRequest();
+        setProfie();
+        /*settingRequest();
         InfoRequest();
         mRequest();*/
     }
@@ -207,6 +202,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         item_event.setOnClickListener(this);
         item_coupons = findViewById(R.id.item_coupon);
         item_coupons.setOnClickListener(this);
+
+        /****DashBoard Screen*****/
+        workoutList=findViewById(R.id.workout_list);
+        workoutList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,true));
+        WorkoutAdapter adapter= new WorkoutAdapter(this,workDays);
+        workoutList.setAdapter(adapter);
     }
 
     private void setViewContainer() {
@@ -237,7 +238,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    /*public void setProfie() {
+    public void setProfie() {
         if (session.isLoggedIn()) {
             HashMap<String, String> user_profile = session.getUserDetails();
             tv_name.setText(user_profile.get(SessionManager.KEY_NAME));
@@ -246,28 +247,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     .load(user_profile.get(SessionManager.KEY_IMAGE))
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .networkPolicy(NetworkPolicy.NO_CACHE)
-                    .placeholder(getResources().getDrawable(R.drawable.ic_placeholder))
+                    //.placeholder(getResources().getDrawable(R.drawable.ic_placeholder))
                     .fit()
                     .centerCrop()
                     .into(img_user);
         }
-    }*/
-
-    public void updateName(String name) {
-        tv_name.setText(name);
     }
-
-/*
-    public void changeImage() {
-        HashMap<String, String> user_profile = session.getUserDetails();
-        Picasso.with(getApplicationContext())
-                .load(user_profile.get(SessionManager.KEY_IMAGE))
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .fit()
-                .into(img_user);
-    }
-*/
 
     public void setFragment(Fragment fragment) {
         checkConnection();
@@ -283,7 +268,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setActionBarTitle(String title) {
         textTitle.setText(title);
-        // toolbar.setTitle(title);
     }
 
     public void closeBar(View view) {
@@ -299,19 +283,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.navigation_profile:
-                setFragment(new Fragment_Edit_Profile());
+                setFragment(new FragmentEditProfile());
                 break;
             case R.id.btn_back:
                 super.onBackPressed();
                 break;
             case R.id.btn_menu:
                 drawer.openDrawer(GravityCompat.START);
-           //    activity.doAccessRight();
                 break;
             case R.id.item_dashboard:
                 dashboard();
                 break;
-            /*case R.id.item_feePayment:
+           /*case R.id.item_feePayment:
                 setFragment(new FeePaymentFragment());
                 break;
             case R.id.item_workouts:

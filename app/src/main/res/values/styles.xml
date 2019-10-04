@@ -104,14 +104,15 @@
         <item name="android:textColor">@color/ColorDarkGray</item>
         <item name="android:textSize">@dimen/_13sdp</item>
         <item name="android:textColorHint">@android:color/darker_gray</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_30sdp</item>
     </style>
 
     <style name="fp_title">
-        <item name="android:textColor">@color/ColorGrayLight</item>
+        <item name="android:textColor">@color/ColorDarkGray</item>
         <item name="android:textSize">@dimen/TextMedium</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 

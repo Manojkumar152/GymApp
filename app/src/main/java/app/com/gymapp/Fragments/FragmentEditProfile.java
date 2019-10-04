@@ -13,10 +13,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,24 +35,30 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Length;
+import com.squareup.picasso.Picasso;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
+import app.com.gymapp.ApiCalls.ApiInterface;
+import app.com.gymapp.ApiCalls.RetrofitClient;
 import app.com.gymapp.BuildConfig;
 import app.com.gymapp.HomeActivity;
 import app.com.gymapp.Models.EditProfile;
+import app.com.gymapp.Models.ProfileData;
 import app.com.gymapp.R;
 import app.com.gymapp.SessionManager;
 import app.com.gymapp.Util.mDateFormat;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,9 +66,9 @@ import static android.app.Activity.RESULT_OK;
  * Created by monika on 01-10-2019.
  */
 
-public class Fragment_Edit_Profile extends Fragment implements View.OnClickListener, Validator.ValidationListener {
+public class FragmentEditProfile extends Fragment implements View.OnClickListener, Validator.ValidationListener {
     @Nullable
-    private String TAG = Fragment_Edit_Profile.class.getSimpleName();
+    private String TAG = FragmentEditProfile.class.getSimpleName();
     private String bDate = "";
     @Nullable
     private EditText tv_edit_username;
@@ -80,14 +88,17 @@ public class Fragment_Edit_Profile extends Fragment implements View.OnClickListe
     private Button save;
     private String img = "";
     private int i = 0;
+    private boolean isEdited;
     private Bitmap bitmap;
-    private ImageView click_username, click_name, click_address, click_email, click_mobile, click_birth, click_currentPass, click_newPass, click_confirmPass;
+    TextView txtname,txtaddress;
+    private ImageView  click_name, click_address, click_email, click_mobile, click_birth, click_currentPass, click_newPass, click_confirmPass;
     private HomeActivity aContext;
     private ProgressDialog progressDialog;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private Validator validator;
     private CircleImageView imageView;
     private ArrayList<EditProfile> editProfile;
+    private String pass = "";
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
@@ -102,21 +113,36 @@ public class Fragment_Edit_Profile extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
-        logout(view);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getString(R.string.wait));
 
+        initView(view);
+        getUserProfile();
+        logout(view);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isEdited==true) {
+                    final String emailText = tv_edit_email.getText().toString();
+                    EMAIL_ADDRESS_PATTERN.matcher(emailText).matches();
+                    validator.validate();
+                }
+                else{
+                    Snackbar.make(getActivity().getWindow().getDecorView(),"Nothing to update",Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return view;
+    }
+
+
+    private void initView(View view) {
+        isEdited=false;
         validator = new Validator(this);
         validator.setValidationListener(this);
-        TextView txtname = view.findViewById(R.id.v_fname);
-        TextView txtaddress = view.findViewById(R.id.v_address);
+        txtname = view.findViewById(R.id.v_fname);
+        txtaddress = view.findViewById(R.id.v_address);
         imageView = view.findViewById(R.id.image_view);
-        txtname.setText(new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_NAME));
-        txtaddress.setText(new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_ADDR));
-        // imageView.setImageResource(new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_IMAGE));
-        /*Picasso.with(getContext())
-                .load(new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_IMAGE))
-                .fit()
-                .into(imageView);*/
-        // Log.d("image", new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_IMAGE));
 
         tv_edit_username = view.findViewById(R.id.username_view);
         tv_edit_name = view.findViewById(R.id.name_view);
@@ -125,124 +151,23 @@ public class Fragment_Edit_Profile extends Fragment implements View.OnClickListe
         tv_edit_email = view.findViewById(R.id.email_view);
         tv_edit_mobileNo = view.findViewById(R.id.mobile_no_view);
         tv_edit_birth = view.findViewById(R.id.date_of_birth_view);
-        // tv_edit_currentPass = (EditText) view.findViewById(R.id.current_password_view);
         tv_edit_newPass = view.findViewById(R.id.new_password_view);
         tv_edit_confirmPass = view.findViewById(R.id.confirm_password_view);
-
-        save = view.findViewById(R.id.edit_save);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String emailText = tv_edit_email.getText().toString();
-                EMAIL_ADDRESS_PATTERN.matcher(emailText).matches();
-                validator.validate();
-
-
-            }
-        });
         imageView.setOnClickListener(this);
+        save = view.findViewById(R.id.edit_save);
 
-        /*============================================================================================*/
-        /*edit_username=(EditText)view.findViewById(R.id.username_edit);
-        edit_name=(EditText)view.findViewById(R.id.name_edit);
-        edit_address=(EditText)view.findViewById(R.id.address_edit);
-        edit_email=(EditText)view.findViewById(R.id.email_edit);
-        edit_mobileNo=(EditText)view.findViewById(R.id.mobile_no_edit);
-        edit_birth=(EditText)view.findViewById(R.id.birth_edit);
-        edit_currentPass=(EditText)view.findViewById(R.id.current_password_edit);
-        edit_newPass=(EditText)view.findViewById(R.id.new_password_edit);
-        edit_confirmPass=(EditText)view.findViewById(R.id.confirm_password_edit);*/
-
-        click_username = view.findViewById(R.id.click_username);
         click_name = view.findViewById(R.id.click_name);
         click_address = view.findViewById(R.id.click_address);
         click_email = view.findViewById(R.id.click_email);
         click_mobile = view.findViewById(R.id.click_mobile);
         click_birth = view.findViewById(R.id.click_birth_date);
-        //click_currentPass = (ImageView) view.findViewById(R.id.click_currentPass);
-        //   click_newPass = (ImageView) view.findViewById(R.id.click_newPass);
-        // click_confirmPass = (ImageView) view.findViewById(R.id.click_confirmPass);
-
 
         click_name.setOnClickListener(this);
-        // click_username.setOnClickListener(this);
         click_address.setOnClickListener(this);
         click_email.setOnClickListener(this);
         click_mobile.setOnClickListener(this);
         click_birth.setOnClickListener(this);
-        // click_currentPass.setOnClickListener(this);
-        // click_newPass.setOnClickListener(this);
-        // click_confirmPass.setOnClickListener(this);
-
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getString(R.string.wait));
-        progressDialog.show();
-
-        return view;
     }
-
-      /*  parser = new JsonParser(aContext);
-
-        final StringRequest req = new StringRequest(Request.Method.POST, Const.URL_EDITPROFILE, new Response.Listener<String>() {
-            @Override
-            public void onResponse(final String response) {
-                progressDialog.dismiss();
-                Log.d(TAG, response);
-
-                try {
-                    editProfile = parser.getEditProfile(response);
-                    img = editProfile.get(i).getImage();
-                    Picasso.with(getContext())
-                            .load(img)
-                            .fit()
-                            //.placeholder(getResources().getDrawable(R.drawable.ic_placeholder))
-                            .centerCrop()
-                            .into(imageView);
-                    tv_edit_username.setText(editProfile.get(i).getUsername());
-                    tv_edit_name.setText(editProfile.get(i).getFirstName());
-                    tv_edit_lname.setText(editProfile.get(i).getLastName());
-                    tv_edit_address.setText(editProfile.get(i).getAddress());
-                    tv_edit_email.setText(editProfile.get(i).getEmail());
-                    tv_edit_mobileNo.setText(editProfile.get(i).getMobile());
-                    bDate = editProfile.get(i).getBirthDate();
-                    tv_edit_birth.setText(new mDateFormat().mFormat(bDate));
-                    Log.d("Password", editProfile.get(i).getPassword());
-                    pass = editProfile.get(i).getPassword();
-
-                    Log.d("Image View", editProfile.get(i).getImage());
-
-                    // tv_edit_currentPass.setText(editProfile.get(i).getPassword());
-                    // tv_edit_newPass.setText(editProfile.get(i).getUsername());
-                    // tv_edit_confirmPass.setText(editProfile.get(i).getUsername());
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error: " + error.getMessage());
-                progressDialog.dismiss();
-            }
-
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("id", new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_ID));
-                Log.d("Id", new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_ID));
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(req);
-        return view;
-    }*/
-
-
 
     @Override
     public void onDestroy() {
@@ -268,61 +193,52 @@ public class Fragment_Edit_Profile extends Fragment implements View.OnClickListe
         }
     }
 
-    private void editprofile() {
-        final String username = tv_edit_username.getText().toString().trim();
-        final String fname = tv_edit_name.getText().toString().trim();
-        final String lname = tv_edit_lname.getText().toString().trim();
-        final String address = tv_edit_address.getText().toString().trim();
-        final String email = tv_edit_email.getText().toString().trim();
-        final String mobile = tv_edit_mobileNo.getText().toString().trim();
-
-
-        String newPass = tv_edit_newPass.getText().toString().trim();
-        //   final String image=imageView.setImageDrawable(imageView.getDrawable().);
-        final String confirmPass = tv_edit_confirmPass.getText().toString().trim();
-        if (!newPass.equals(confirmPass)) {
-            Toasty.info(getActivity(), "New password and confirm password must be same!", Toast.LENGTH_SHORT).show();
-        } else {
-            if (newPass.isEmpty()) {
-                newPass = "";
+    private void getUserProfile() {
+        progressDialog.show();
+        final String id = new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_ID);
+        ApiInterface service = RetrofitClient.getClient().create(ApiInterface.class);
+        Call<ProfileData> call = service.getUserProfile(id);
+        call.enqueue(new Callback<ProfileData>() {
+            @Override
+            public void onResponse(Call<ProfileData> call, Response<ProfileData> response) {
+                Log.e(TAG,"OnResponse"+response.body());
+                progressDialog.dismiss();
+                if(response.body().getStatus().equals("1")) {
+                    try {
+                        Picasso.with(getContext())
+                                .load(response.body().getResult().get(0).getImage())
+                                .fit()
+                                //.placeholder(getResources().getDrawable(R.drawable.ic_placeholder))
+                                .centerCrop()
+                                .into(imageView);
+                        txtname.setText(response.body().getResult().get(0).getFirst_name()+response.body().getResult().get(0).getLast_name());
+                        txtaddress.setText(response.body().getResult().get(0).getAddress());
+                        tv_edit_username.setText(response.body().getResult().get(0).getUsername());
+                        tv_edit_name.setText(response.body().getResult().get(0).getFirst_name());
+                        tv_edit_lname.setText(response.body().getResult().get(0).getLast_name());
+                        tv_edit_address.setText(response.body().getResult().get(0).getAddress());
+                        tv_edit_email.setText(response.body().getResult().get(0).getEmail());
+                        tv_edit_mobileNo.setText(response.body().getResult().get(0).getMobile());
+                        bDate = response.body().getResult().get(0).getBirth_date();
+                        tv_edit_birth.setText(new mDateFormat().mFormat(bDate));
+                        pass = response.body().getResult().get(0).getPassword();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    Toasty.error(getActivity(),response.body().getError());
+                }
             }
-           /* // final String password = editTextPassword.getText().toString().trim();
-            // final String email = editTextEmail.getText().toString().trim();
-            //
-            final String id = new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_ID);
-            final String finalNewPass = newPass;
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, Const.URL_INSERT_PROFILE,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            //  progressDialog.dismiss();
-                            JSONObject obj = null;
-                            try {
-                                obj = new JSONObject(response);
-                                String status = obj.getString("status");
-                                String error = obj.getString("error");
-                                if (status.equals("1")) {
-                                    aContext.updateName(fname + " " + lname);
-                                    Toasty.success(getContext(), "Successfully", Toast.LENGTH_SHORT).show();
-                                } else
-                                    Toasty.error(getContext(), error, Toast.LENGTH_SHORT).show();
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            //progressDialog.dismiss();
-                            Toasty.error(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("username", username);
+            @Override
+            public void onFailure(Call<ProfileData> call, Throwable t) {
+
+            }
+        });
+    }
+
+                    /*params.put("username", username);
                     params.put("first_name", fname);
                     params.put("last_name", lname);
                     params.put("address", address);
@@ -339,32 +255,35 @@ public class Fragment_Edit_Profile extends Fragment implements View.OnClickListe
                     return params;
                 }
             };
-            AppController.getInstance().addToRequestQueue(stringRequest);*/
-        }
-    }
+            AppController.getInstance().addToRequestQueue(stringRequest);
+        }*/
+    //}
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
             case R.id.click_username:
-                //tv_edit_username.setEnabled(true);
-                //tv_edit_username.setCursorVisible(true);
                 break;
             case R.id.click_name:
+                isEdited=true;
                 tv_edit_name.setEnabled(true);
                 tv_edit_lname.setEnabled(true);
                 break;
             case R.id.click_address:
+                isEdited=true;
                 tv_edit_address.setEnabled(true);
                 break;
             case R.id.click_email:
+                isEdited=true;
                 tv_edit_email.setEnabled(true);
                 break;
             case R.id.click_mobile:
+                isEdited=true;
                 tv_edit_mobileNo.setEnabled(true);
                 break;
             case R.id.click_birth_date:
+                isEdited=true;
                 final Calendar c = Calendar.getInstance();
                 mYear = c.get(Calendar.YEAR);
                 mMonth = c.get(Calendar.MONTH);
@@ -386,6 +305,7 @@ public class Fragment_Edit_Profile extends Fragment implements View.OnClickListe
                 break;*/
 
             case R.id.image_view:
+                isEdited=true;
                 pickImage();
                 break;
         }
@@ -403,7 +323,43 @@ public class Fragment_Edit_Profile extends Fragment implements View.OnClickListe
 
     @Override
     public void onValidationSucceeded() {
-        editprofile();
+        updateUserProfile();
+    }
+
+    private void updateUserProfile() {
+        progressDialog.show();
+        final String username = tv_edit_username.getText().toString().trim();
+        final String fname = tv_edit_name.getText().toString().trim();
+        final String lname = tv_edit_lname.getText().toString().trim();
+        final String address = tv_edit_address.getText().toString().trim();
+        final String email = tv_edit_email.getText().toString().trim();
+        final String mobile = tv_edit_mobileNo.getText().toString().trim();
+        String newPass = tv_edit_newPass.getText().toString().trim();
+        final String confirmPass = tv_edit_confirmPass.getText().toString().trim();
+        if (!newPass.equals(confirmPass)) {
+            Toasty.info(getActivity(), "New password and confirm password must be same!", Toast.LENGTH_SHORT).show();
+        } else {
+            if (newPass.isEmpty()) {
+                newPass = "";
+            }
+            final String id = new SessionManager(getActivity()).getUserDetails().get(SessionManager.KEY_ID);
+            final String finalNewPass = newPass;
+
+            ApiInterface service= RetrofitClient.getClient().create(ApiInterface.class);
+            Call<ResponseBody> call= service.updateUserProfile(id,username,fname,lname,address,email,mobile,finalNewPass);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Log.e(TAG,"UPDAte"+response.body().toString());
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    progressDialog.dismiss();
+                }
+            });
+        }
     }
 
     @Override

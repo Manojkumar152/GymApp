@@ -67,7 +67,7 @@
                     <TextView
                         android:id="@+id/v_fname"
                         style="@style/fps_detail"
-                        android:text="Username"
+                        android:hint="Username"
                         android:layout_gravity="center" />
                 </LinearLayout>
 
@@ -80,7 +80,7 @@
                     <TextView
                         android:id="@+id/v_address"
                         style="@style/fp_title"
-                        android:text="Address"
+                        android:hint="@string/address"
                         android:layout_gravity="center" />
                 </LinearLayout>
             </LinearLayout>
@@ -190,15 +190,15 @@
                             android:textColor="@color/colorPrimary" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:weightSum="1">
+                            android:weightSum="2">
 
                             <EditText
                                 android:id="@+id/name_view"
                                 style="@style/fps_detail"
-                                android:layout_weight="0.5"
+                                android:layout_weight="1"
                                 android:enabled="false"
                                 android:hint="@string/first_name"
                                 android:maxLength="25"
@@ -209,7 +209,7 @@
                             <EditText
                                 android:id="@+id/lname_view"
                                 android:layout_width="match_parent"
-                                android:layout_weight="0.5"
+                                android:layout_weight="1"
                                 style="@style/fps_detail"
                                 android:enabled="false"
                                 android:hint="@string/last_name"
@@ -233,7 +233,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
                     android:background="#6b9e9e9e">
-
                 </View>
 
                 <LinearLayout
@@ -509,7 +508,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="@dimen/_5sdp">
+                    android:paddingTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_50sdp">
 
                     <ImageView
 
@@ -552,27 +552,25 @@
                     android:layout_height="@dimen/_1sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:background="#6b9e9e9e">
-
                 </View>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp">
-
-                    <Button
-                        android:id="@+id/edit_save"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangular_blue_drawable"
-                        android:gravity="center"
-                        android:text="@string/save"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        android:textSize="@dimen/TextMedium" />
-                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/edit_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangular_blue_drawable"
+            android:gravity="center"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textSize="@dimen/TextMedium" />
+    </RelativeLayout>
 </FrameLayout>

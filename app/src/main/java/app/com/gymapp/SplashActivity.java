@@ -20,7 +20,6 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 SessionManager session = new SessionManager(getApplicationContext());
                 Log.e(TAG,"SessionLogin"+ session.isLoggedIn());
-
                 if (session.isLoggedIn()) {
                     Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

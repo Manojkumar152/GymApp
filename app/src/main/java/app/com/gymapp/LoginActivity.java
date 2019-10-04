@@ -70,12 +70,13 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
-                Log.d(TAG,"Response"+response.body());
+                Log.d(TAG,"Response"+response.body()+"Address"+ response.body().getResult().get(0).getImage());
                 if(response.body().getStatus().equals("1")){
-                    String name=response.body().getResult().get(1).getFirst_name()+ response.body().getResult().get(1).getLast_name();
-                    String image=response.body().getResult().get(1).getImage();
-                    String id= response.body().getResult().get(1).getId();
-                    session.createLoginSession(name, image, id);
+                    String name=response.body().getResult().get(0).getFirst_name()+ response.body().getResult().get(0).getLast_name();
+                    String image=response.body().getResult().get(0).getImage();
+                    String id= response.body().getResult().get(0).getId();
+                    String address=response.body().getResult().get(0).getAddress();
+                    session.createLoginSession(name, image, id, address);
                     if (session.isLoggedIn()) {
                         Toasty.success(getApplicationContext(),
                                 "You have successfully logged in",

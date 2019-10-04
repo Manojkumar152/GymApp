@@ -27,10 +27,11 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String name, String image, String id) {
+    public void createLoginSession(String name, String image, String id, String address) {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_IMAGE, image);
+        editor.putString(KEY_ADDR,address);
         editor.putString(KEY_ID, id);
         editor.commit();
     }

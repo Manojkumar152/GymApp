@@ -47,7 +47,7 @@
                             android:id="@+id/lbl1"
                             style="@style/dashboard_text"
                             android:layout_below="@+id/img1"
-                            android:textColor="#5FCE9B"
+                            android:textColor="#00CC89"
                             android:text="@string/workouts" />
                     </RelativeLayout>
                     <View
